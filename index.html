@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #maze {
+      width: 400px;
+      height: 400px;
+      border: 2px solid #000;
+      position: relative;
+      margin: 50px auto;
+    }
+
+    #square {
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      position: absolute;
+      top: 10px; /* Initial position */
+      left: 10px; /* Initial position */
+    }
+
+    .wall {
+      background-color: #333;
+      position: absolute;
+    }
+
+    .horizontal {
+      height: 20px;
+      width: 80px;
+    }
+
+    .vertical {
+      height: 80px;
+      width: 20px;
+    }
+  </style>
+  <title>Maze Game</title>
+</head>
+<body>
+
+<div id="maze"></div>
+
+<script>
+  const maze = document.getElementById('maze');
+  const walls = [
+    { type: 'horizontal', position: { top: 0, left: 100 } },
+    { type: 'horizontal', position: { top: 0, left: 200 } },
+    { type: 'horizontal', position: { top: 380, left: 100 } },
+    { type: 'horizontal', position: { top: 380, left: 200 } },
+    { type: 'vertical', position: { top: 100, left: 0 } },
+    { type: 'vertical', position: { top: 200, left: 0 } },
+    { type: 'vertical', position: { top: 100, left: 380 } },
+    { type: 'vertical', position: { top: 200, left: 380 } }
+  ];
+
+  const square = document.createElement('div');
+  square.id = 'square';
+  maze.appendChild(square);
+
+  let squareX = 10; // Initial X position
+  let squareY = 10; // Initial Y position
+  const moveDistance = 10; // Distance to move on each key press
+
+  // Function to update square position
+  function updateSquarePosition() {
+    square.style.left = squareX + 'px';
+    square.style.top = squareY + 'px';
+  }
+
+  // Create walls
+  walls.forEach(wall => {
+    const wallElement = document.createElement('div');
+    wallElement.classList.add('wall', wall.type);
+    wallElement.style.top = wall.position.top + 'px';
+    wallElement.style.left = wall.position.left + 'px';
+    maze.appendChild(wallElement);
+  });
+
+  // Event listener for key presses
+  document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'a':
+        if (squareX > 10) squareX -= moveDistance;
+        break;
+      case 'd':
+        if (squareX < 380) squareX += moveDistance;
+        break;
+      case 'w':
+        if (squareY > 10) squareY -= moveDistance;
+        break;
+      case 's':
+        if (squareY < 380) squareY += moveDistance;
+        break;
+    }
+
+    updateSquarePosition();
+  });
+
+  // Initial square position
+  updateSquarePosition();
+</script>
+
+</body>
+</html>
